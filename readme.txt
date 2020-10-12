@@ -12,6 +12,7 @@ HOW TO SET UP THIS MUSIC BOT
   F) Click create credentials at the top, pick API key, then click edit on the right
   G) Name it whatever you like. Under "API Restrictions", check "Restrict key", and tick the YouTube API v3 on the dropdown and only the YouTube API v3.
   H) Copy the API key and paste it in config.json
+  All the other options in config.json can be left as they are.
   
 3. INSTALL DEPENDANCES
   All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:
