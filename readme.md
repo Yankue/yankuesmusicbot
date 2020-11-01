@@ -30,7 +30,7 @@
   Add the bot to a server, and in your command prompt, run "node ." to start up the bot. It should come online.
   
 # How to Integrate to an existing Bot
-Main.js isn't important, use your own command handler. 
+Main.js isn't important, use your own command handler. However, /include/ and /util/ are important. Copy these folders and their contents into your bot's root directory. All the commands can be copied into your command foler, and if you need to make any changes to your command handler to make it fire the execute function, do it.
   
 # How to Use after Setup
 
