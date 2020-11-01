@@ -1,32 +1,32 @@
 # How to Setup
 
-## 1. Clone the bot to the server/PC with Git.
+### 1. Clone the bot to the server/PC with Git.
 
-## 2. Customise Config.JSON
-  Pick any prefix you like. The default is comma. Insert you Discord Token to the TOKEN field. Do the same with your youtube api key. To get a youtube api key:
-  A) go to console.developers.google.com/
-  B) Create a project, and in the top left, next to the google logo, select your new project.
-  C) On the left, go on the dashboard tab. Click "Enable APIs and Services"
-  D) Find the "YouTube Data API v3" and enable it
-  E) Go back to the dashboard, and on the left select "Credentials"
-  F) Click create credentials at the top, pick API key, then click edit on the right
-  G) Name it whatever you like. Under "API Restrictions", check "Restrict key", and tick the YouTube API v3 on the dropdown and only the YouTube API v3.
-  H) Copy the API key and paste it in config.json
-  All the other options in config.json can be left as they are.
+### 2. Customise Config.JSON
+  Pick any prefix you like. The default is comma. Insert you Discord Token to the TOKEN field. Do the same with your youtube api key. To get a youtube api key:  
+  A) go to console.developers.google.com/  
+  B) Create a project, and in the top left, next to the google logo, select your new project.  
+  C) On the left, go on the dashboard tab. Click "Enable APIs and Services"  
+  D) Find the "YouTube Data API v3" and enable it  
+  E) Go back to the dashboard, and on the left select "Credentials"  
+  F) Click create credentials at the top, pick API key, then click edit on the right  
+  G) Name it whatever you like. Under "API Restrictions", check "Restrict key", and tick the YouTube API v3 on the dropdown and only the YouTube API v3.  
+  H) Copy the API key and paste it in config.json  
+  All the other options in config.json can be left as they are.  
   
-## 3. Install Dependancies
-  All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:
-    npm install discord.js
-    npm install lyrics-finder
-    npm install string-progressbar
-    npm install ytdl-core-discord
-    npm install soundcloud-downloader
-    npm install ytdl-core
-    npm install simple-youtube-api
-    npm install opusscript
-    npm install node-opus
+### 3. Install Dependancies
+  All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:  
+    npm install discord.js  
+    npm install lyrics-finder  
+    npm install string-progressbar  
+    npm install ytdl-core-discord  
+    npm install soundcloud-downloader  
+    npm install ytdl-core  
+    npm install simple-youtube-api  
+    npm install opusscript  
+    npm install node-opus  
     
-## 4. Test the Bot
+### 4. Test the Bot
   Add the bot to a server, and in your command prompt, run "node ." to start up the bot. It should come online.
   
 # How to Integrate to an existing Bot
@@ -34,7 +34,7 @@ Main.js isn't important, use your own command handler.
   
 # How to Use after Setup
 
-## Command List
+### Command List
 This is the basic command list. A lot of these commands have aliases.
 
 ,play [song] - Add a song to the queue
