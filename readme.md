@@ -1,8 +1,8 @@
-HOW TO SET UP THIS MUSIC BOT
+#How to Setup
 
-1. CLONE THE BOT TO THE SERVER/PC WITH GIT
+##1. Clone the bot to the server/PC with Git.
 
-2. SETUP CONFIG.JSON
+##2. Customise Config.JSON
   Pick any prefix you like. The default is comma. Insert you Discord Token to the TOKEN field. Do the same with your youtube api key. To get a youtube api key:
   A) go to console.developers.google.com/
   B) Create a project, and in the top left, next to the google logo, select your new project.
@@ -14,7 +14,7 @@ HOW TO SET UP THIS MUSIC BOT
   H) Copy the API key and paste it in config.json
   All the other options in config.json can be left as they are.
   
-3. INSTALL DEPENDANCES
+##3. Install Dependancies
   All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:
     npm install discord.js
     npm install lyrics-finder
@@ -26,13 +26,15 @@ HOW TO SET UP THIS MUSIC BOT
     npm install opusscript
     npm install node-opus
     
-4. TEST THE BOT
+##4. Test the Bot
   Add the bot to a server, and in your command prompt, run "node ." to start up the bot. It should come online.
   
+#How to Integrate to an existing Bot
+Main.js isn't important, use your own command handler. 
   
-HOW TO USE THE BOT WHEN ITS SET UP
+#How to Use after Setup
 
-COMMAND LIST
+##Command List
 This is the basic command list. A lot of these commands have aliases.
 
 ,play [song] - Add a song to the queue
@@ -50,5 +52,5 @@ This is the basic command list. A lot of these commands have aliases.
 ,loop - Toggle whether to repeat the queue when complete
 ,np - Show information about the currently playing song
 
-SUPPORT
+#Support
 If you need help, please open an issue and I will help you as best as I can
