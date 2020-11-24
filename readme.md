@@ -16,17 +16,15 @@
   
 ### 3. Install Dependancies
   All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:
-     ```
-    npm install discord.js\n  
-    npm install lyrics-finder  
-    npm install string-progressbar  
-    npm install ytdl-core-discord  
-    npm install soundcloud-downloader  
-    npm install ytdl-core  
-    npm install simple-youtube-api  
-    npm install opusscript  
-    npm install node-opus  
-    ```
+    ``npm install discord.js`` 
+    ``npm install lyrics-finder``  
+    ``npm install string-progressbar``  
+    ``npm install ytdl-core-discord``  
+    ``npm install soundcloud-downloader``  
+    ``npm install ytdl-core``  
+    ``npm install simple-youtube-api``  
+    ``npm install opusscript`` 
+    ``npm install node-opus``
 ### 4. Test the Bot
   Add the bot to a server, and in your command prompt, run "node ." to start up the bot. It should come online.
   
