@@ -17,7 +17,7 @@
 ### 3. Install Dependancies
   All the dependancies are safe and virus free. In your command prompt, navigate to the project, and run the following commands:
      ```
-    npm install discord.js  
+    npm install discord.js\n  
     npm install lyrics-finder  
     npm install string-progressbar  
     npm install ytdl-core-discord  
