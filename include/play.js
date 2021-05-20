@@ -1,6 +1,7 @@
-﻿const ytdlDiscord = require("ytdl-core-discord");
+const ytdlDiscord = require("ytdl-core-discord");
 const scdl = require("soundcloud-downloader");
 const { canModifyQueue } = require("../util/handler");
+const Discord = require(`discord.js`);
 
 module.exports = {
     async play(song, message) {
@@ -8,9 +9,15 @@ module.exports = {
         const queue = message.client.queue.get(message.guild.id);
 
         if (!song) {
+            let VCLeave = new Discord.MessageEmbed()
+                .setTitle(`Music queue ended`)
+                .setColor("#11fc46")
+                .setDescription(`I have left <#${queue.channel.id}> as the Music Queue ended`)
+                .setTimestamp();
+
             queue.channel.leave();
             message.client.queue.delete(message.guild.id);
-            return queue.textChannel.send("Music queue ended.").catch(console.error);
+            return queue.textChannel.send(VCLeave).catch(console.error);
         }
 
         let stream = null;
@@ -72,7 +79,18 @@ module.exports = {
         dispatcher.setVolumeLogarithmic(queue.volume / 100);
 
         try {
-            var playingMessage = await queue.textChannel.send(`🎶 Started playing: **${song.title}** ${song.url}`);
+            let NowPlaying = new Discord.MessageEmbed()
+                .setTimestamp()
+                .setTitle(`Now playing`)
+                .setThumbnail(song.thumbnail)
+                .setColor("#3b78e0")
+                .setDescription(`__[${song.title}](${song.url})__`)
+                .addField(`Song added by`, message.author);
+
+            if (NowPlaying.description.length >= 75)
+                NowPlaying.description = `${NowPlaying.description.substr(0, 75)}...`;
+
+            var playingMessage = await queue.textChannel.send(NowPlaying);
         } catch (error) {
             console.error(error);
         }

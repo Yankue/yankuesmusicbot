@@ -1,33 +1,74 @@
-﻿const { play } = require("../include/play");
+const { play } = require("../include/play");
 const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
 const ytdl = require("ytdl-core");
 const YouTubeAPI = require("simple-youtube-api");
 const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 const scdl = require("soundcloud-downloader");
+const Discord = require(`discord.js`);
 
 module.exports = {
     name: "play",
     cooldown: 3,
     aliases: ["p"],
     description: "Plays audio from YouTube or Soundcloud",
-    async execute(message, args, client, con) {
+    async execute(message, args, client) {
+        /*
+        Embeds
+        */
+        let musicHelp = new Discord.MessageEmbed()
+            .setTitle(this.name.toUpperCase) 
+            .setColor(`#3b78e0`)
+            .setDescription(`Plays audio from YouTube or Soundcloud`)
+            .addField(`Usage`, '`' + message.client.prefix + this.name + ` <YouTube URL | Video Name | Soundcloud URL>`);
+        
+        let ConnectPermMissing = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle("Permissions missing!")
+            .setDescription("Cannot connect to voice channel, missing permissions");
+        
+        let VoicePermMissing = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle("Permissions missing!")
+            .setDescription("I cannot speak in this voice channel, make sure I have the proper permissions!");
+            
+        let FetchSoundcloudErr = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle("Error")
+            .setDescription("Could not find that Soundcloud track");
+
+        let PlaySoundcloudErr = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle("Error")
+            .setDescription("There was an error playing that Soundcloud track.");
+            
+        let NoVideoFound = new Discord.MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle("Error")
+            .setDescription(`No video was found with a matching title`);
+            
+        let JoinChannelBot = new Discord.MessageEmbed()
+            .setTitle(`Error`)
+            .setDescription(`You need to be in the same Voice Channel as ${message.client.user} to use this command!`);
+            
+
+
         const { channel } = message.member.voice;
 
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!channel) return message.reply("You need to join a voice channel first!").catch(console.error);
         if (serverQueue && channel !== message.guild.me.voice.channel)
-            return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);
+            return message.reply(JoinChannelBot).catch(console.error);
 
         if (!args.length)
             return message
-                .reply(`Usage: ${message.client.prefix}play <YouTube URL | Video Name | Soundcloud URL>`)
+                .reply(musicHelp)
                 .catch(console.error);
 
         const permissions = channel.permissionsFor(message.client.user);
         if (!permissions.has("CONNECT"))
-            return message.reply("Cannot connect to voice channel, missing permissions");
+            return message.reply(ConnectPermMissing);
         if (!permissions.has("SPEAK"))
-            return message.reply("I cannot speak in this voice channel, make sure I have the proper permissions!");
+            return message.reply(VoicePermMissing);
 
         const search = args.join(" ");
         const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
@@ -59,10 +100,13 @@ module.exports = {
         if (urlValid) {
             try {
                 songInfo = await ytdl.getInfo(url);
+                let videoThumbnail = songInfo.videoDetails.thumbnails[0];
+                let videoThumbnailURL = videoThumbnail.url;
                 song = {
                     title: songInfo.videoDetails.title,
                     url: songInfo.videoDetails.video_url,
-                    duration: songInfo.videoDetails.lengthSeconds
+                    duration: songInfo.videoDetails.lengthSeconds,
+                    thumbnail: videoThumbnailURL,
                 };
             } catch (error) {
                 console.error(error);
@@ -78,28 +122,41 @@ module.exports = {
                 };
             } catch (error) {
                 if (error.statusCode === 404)
-                    return message.reply("Could not find that Soundcloud track.").catch(console.error);
-                return message.reply("There was an error playing that Soundcloud track.").catch(console.error);
+                    return message.reply(FetchSoundcloudErr).catch(console.error);
+                return message.reply(PlaySoundcloudErr).catch(console.error);
             }
         } else {
             try {
                 const results = await youtube.searchVideos(search, 1);
                 songInfo = await ytdl.getInfo(results[0].url);
+                let videoThumbnail = songInfo.videoDetails.thumbnails[0];
+                let videoThumbnailURL = videoThumbnail.url;
                 song = {
                     title: songInfo.videoDetails.title,
                     url: songInfo.videoDetails.video_url,
-                    duration: songInfo.videoDetails.lengthSeconds
+                    duration: songInfo.videoDetails.lengthSeconds,
+                    thumbnail: videoThumbnailURL
                 };
             } catch (error) {
                 console.error(error);
-                return message.reply("No video was found with a matching title").catch(console.error);
+                return message.reply(NoVideoFound).catch(console.error);
             }
         }
 
         if (serverQueue) {
             serverQueue.songs.push(song);
+            let QueueSongAdd = new Discord.MessageEmbed()
+                .setTitle(`Now playing`)
+                .setThumbnail(song.thumbnail)
+                .setColor("#3b78e0")
+                .setDescription(`__[${song.title}](${song.url})__`)
+                .addField(`Song added by`, message.author);
+            
+            if (QueueSongAdd.description.length >= 75)
+                QueueSongAdd.description = `${QueueSongAdd.description.substr(0, 75)}...`;
+            
             return serverQueue.textChannel
-                .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
+                .send(QueueSongAdd)
                 .catch(console.error);
         }
 

@@ -6,14 +6,21 @@ module.exports = {
     description: "Show the music queue and now playing.",
     execute(message) {
         const queue = message.client.queue.get(message.guild.id);
-        if (!queue) return message.reply("There is nothing playing.").catch(console.error);
 
+        let NothingPlaying = new MessageEmbed()
+            .setColor("#ff0000")
+            .setTitle(`Nothing Playing!`)
+            .setDescription(`The queue is empty!`);
+
+        if (!queue) return message.reply(NothingPlaying).catch(console.error);
+
+        
         const description = queue.songs.map((song, index) => `${index + 1}. ${escapeMarkdown(song.title)}`);
 
         let queueEmbed = new MessageEmbed()
-            .setTitle("Yankue Music Queue")
+            .setTitle(`${message.guild.name} Music Queue`)
             .setDescription(description)
-            .setColor("#F8AA2A");
+            .setColor("#3b78e0");
 
         const splitDescription = splitMessage(description, {
             maxLength: 2048,
