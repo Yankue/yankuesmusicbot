@@ -17,7 +17,7 @@ module.exports = {
 
         if (!queue.playing) {
             let ResumedEmbed = new Discord.MessageEmbed()
-            .setColor("#11fc46")
+            .setColor("#3b78e0")
             .setTitle("Player Resumed!")
             .setThumbnail(`https://cdn.discordapp.com/emojis/830034712650317825.png?v=1`)
             .setDescription(`The player has been resumed.`)
