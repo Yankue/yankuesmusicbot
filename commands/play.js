@@ -151,6 +151,10 @@ module.exports = {
                 .setColor("#3b78e0")
                 .setDescription(`__[${song.title}](${song.url})__`)
                 .addField(`Song added by`, message.author);
+            
+            if (QueueSongAdd.description.length >= 75)
+                QueueSongAdd.description = `${QueueSongAdd.description.substr(0, 75)}...`;
+            
             return serverQueue.textChannel
                 .send(QueueSongAdd)
                 .catch(console.error);
