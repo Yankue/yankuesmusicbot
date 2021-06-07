@@ -21,8 +21,6 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 client.on("ready", () => {
     console.log(`${client.user.username} ready!`);
     client.user.setActivity(`${PREFIX}help`);
-    //We need to cache all the messages involved in reaction roles.
-
 
 });
 client.on("warn", (info) => console.log(info));
@@ -36,13 +34,6 @@ for (const file of commandFiles) {
     const command = require(join(__dirname, "commands", `${file}`));
     client.commands.set(command.name, command);
 }
-
-client.on("messageReactionAdd", function (messageReaction, user) {
-    let assistFile = require("./reactionhandler.js");
-    console.log("Hello!");
-    let message = messageReaction.message, emoji = messageReaction.emoji;
-    assistFile.execute();
-});
 
 client.on("message", async (message) => {
 
