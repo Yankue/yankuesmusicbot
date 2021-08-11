@@ -1,9 +1,8 @@
 const { play } = require("../include/play");
 const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
-const ytdl = require("ytdl-core");
+const ytdl = require("ytdl-core-discord");
 const YouTubeAPI = require("simple-youtube-api");
 const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
-const scdl = require("soundcloud-downloader");
 const Discord = require(`discord.js`);
 
 module.exports = {
@@ -80,8 +79,6 @@ module.exports = {
         // Start the playlist if playlist url was provided
         if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
             return message.client.commands.get("playlist").execute(message, args);
-        } else if (scdl.isValidUrl(url) && url.includes("/sets/")) {
-            return message.client.commands.get("playlist").execute(message, args);
         }
 
         const queueConstruct = {
@@ -112,23 +109,10 @@ module.exports = {
                 console.error(error);
                 return message.reply(error.message).catch(console.error);
             }
-        } else if (scRegex.test(url)) {
-            try {
-                const trackInfo = await scdl.getInfo(url, SOUNDCLOUD_CLIENT_ID);
-                song = {
-                    title: trackInfo.title,
-                    url: trackInfo.permalink_url,
-                    duration: Math.ceil(trackInfo.duration / 1000)
-                };
-            } catch (error) {
-                if (error.statusCode === 404)
-                    return message.reply(FetchSoundcloudErr).catch(console.error);
-                return message.reply(PlaySoundcloudErr).catch(console.error);
-            }
         } else {
             try {
                 const results = await youtube.searchVideos(search, 1);
-                songInfo = await ytdl.getInfo(results[0].url);
+                songInfo = await ytdl.getInfo(results[0].id);
                 let videoThumbnail = songInfo.videoDetails.thumbnails[0];
                 let videoThumbnailURL = videoThumbnail.url;
                 song = {

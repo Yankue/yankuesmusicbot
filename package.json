@@ -16,7 +16,6 @@
     "opusscript": "0.0.7",
     "sequelize": "^6.3.4",
     "simple-youtube-api": "^5.2.1",
-    "soundcloud-downloader": "^0.1.6",
     "sqlite3": "^5.0.0",
     "string-progressbar": "^1.0.1",
     "ytdl-core": "^3.2.2",
